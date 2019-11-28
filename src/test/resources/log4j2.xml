@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<Configuration status="INFO" strict="true"> 
+  <Appenders>
+  	<Appender type="Console" name="STDOUT">
+      <Layout type="PatternLayout" pattern="[%level] %d{yyyy-MM-dd HH:mm:ss.SSS z} | %class{1} | %message%n" />
+    </Appender>
+    <File name="FILE" fileName="Logger/ConsoleLogs.log">
+      <PatternLayout>
+        <Pattern>[%level] %d{yyyy-MM-dd HH:mm:ss.SSS z} | %class{1} | %message%n</Pattern>
+      </PatternLayout>
+    </File> 
+  </Appenders> 
+  <Loggers> 
+    <Logger name="Log" additivity="false"/> 
+    <Root level="Info"> 
+      <AppenderRef ref="FILE"/>
+      <AppenderRef ref="STDOUT"/>  
+    </Root> 
+  </Loggers> 
+</Configuration>

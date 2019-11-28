@@ -1,0 +1,19 @@
+[INFO] 2019-11-28 15:44:19.095 IST | NavigationTest | https://www.google.com/maps/place/San+Francisco,+CA,+USA/@37.7576793,-122.5076402,12z/data=!3m1!4b1!4m5!3m4!1s0x80859a6d00690021:0x4a501367f076adff!8m2!3d37.7749295!4d-122.4194155
+[INFO] 2019-11-28 15:44:22.104 IST | NavigationTest | Get Co-ordinates: 37.7576793,-122.5076402,12
+[INFO] 2019-11-28 15:44:35.923 IST | NavigationTest | 2 h 44 min
+170 miles
+via CA-99 S and I-80 W
+Fastest route now due to traffic conditions
+This route has tolls.
+DETAILS
+[INFO] 2019-11-28 15:44:36.014 IST | NavigationTest | 2 h 47 min
+164 miles
+via I-80 W
+[INFO] 2019-11-28 15:44:36.141 IST | NavigationTest | 3 h 17 min
+189 miles
+via CA-99 S
+
+1 Scenarios (1 passed)
+6 Steps (6 passed)
+0m41.406s
+
