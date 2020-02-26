@@ -6,5 +6,5 @@ This route has tolls.
 DETAILS, 2 h 47 min
 164 miles
 via I-80 W, 3 h 17 min
-189 miles
+189 miles.
 via CA-99 S]
