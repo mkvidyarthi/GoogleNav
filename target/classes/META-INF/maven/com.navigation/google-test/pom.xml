@@ -10,7 +10,7 @@
 		<webdrivermanager.version>3.7.1</webdrivermanager.version>
 		<selenium-java.version>3.141.59</selenium-java.version>
 		<log4j-api.version>2.7</log4j-api.version>
-		<junit.version>4.12</junit.version>
+		<junit.version>4.13.1</junit.version>
 		<cucumber.version>1.2.2</cucumber.version>
 		<cucumber-picocontainer.version>1.2.5</cucumber-picocontainer.version>
 		<java.version>1.8</java.version>
