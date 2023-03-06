@@ -1,5 +1,6 @@
 package com.navigation.googletest.util;
 
+import io.github.bonigarcia.wdm.config.Architecture;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
@@ -9,16 +10,15 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.ie.InternetExplorerOptions;
 
-import io.github.bonigarcia.wdm.Architecture;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class TestProperties {
     
     /** The driver. */
-    private WebDriver driver = null;
+    private final WebDriver driver = null;
     
     /** The logger. */
-    private static Logger logger = LogManager.getLogger(TestProperties.class.getName());
+    private final Logger logger = LogManager.getLogger(this.getClass());
 
     /** The Constant CHROME. */
     private static final String CHROME = "chrome";
@@ -42,7 +42,7 @@ public class TestProperties {
         case FIREFOX:
             return initializeFirefox();
         case IE:
-            return intializeIE();
+            return initializeIE();
         case EDGE:
             return initializeEdge();
         default:
@@ -51,22 +51,22 @@ public class TestProperties {
         return driver;
     }
 
-    private static ChromeDriver initializeChrome() {
+    private ChromeDriver initializeChrome() {
         WebDriverManager.chromedriver().setup();
         return new ChromeDriver();
     }
 
-    private static FirefoxDriver initializeFirefox() {
+    private FirefoxDriver initializeFirefox() {
         WebDriverManager.firefoxdriver().setup();
         return new FirefoxDriver();
     }
 
-    private static InternetExplorerDriver intializeIE() {
+    private InternetExplorerDriver initializeIE() {
         WebDriverManager.iedriver().architecture(Architecture.X32).setup();
         return new InternetExplorerDriver(getIEOptions());
     }
 
-    private static InternetExplorerOptions getIEOptions() {
+    private InternetExplorerOptions getIEOptions() {
         InternetExplorerOptions options = new InternetExplorerOptions();
         options.setCapability(InternetExplorerDriver.INITIAL_BROWSER_URL, "");
         options.setCapability(InternetExplorerDriver.IGNORE_ZOOM_SETTING, true);
@@ -74,7 +74,7 @@ public class TestProperties {
         return options;
     }
 
-    private static EdgeDriver initializeEdge() {
+    private EdgeDriver initializeEdge() {
         WebDriverManager.edgedriver().setup();
         return new EdgeDriver();
     }

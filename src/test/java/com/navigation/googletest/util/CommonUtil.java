@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.logging.log4j.LogManager;
@@ -18,9 +19,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import com.google.common.util.concurrent.Uninterruptibles;
 
 public class CommonUtil {
-    private static Logger log = LogManager.getLogger(CommonUtil.class.getName());
+    private final Logger logger = LogManager.getLogger(this.getClass());
     
-    private CommonUtil() {
+    public CommonUtil() {
 
     }
 
@@ -32,8 +33,8 @@ public class CommonUtil {
      * @param we
      *            the we
      */
-    public static void waitForElementIsClickable(final WebDriver driver, final WebElement we) {
-        WebDriverWait wait = new WebDriverWait(driver, 30);
+    public void waitForElementIsClickable(final WebDriver driver, final WebElement we) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
         wait.until(ExpectedConditions.elementToBeClickable(we));
     }
 
@@ -47,7 +48,7 @@ public class CommonUtil {
      * @param driver
      *            the driver
      */
-    public static void typeInTextBox(final WebElement we, final String value, final WebDriver driver) {
+    public void typeInTextBox(final WebElement we, final String value, final WebDriver driver) {
         waitForElementIsClickable(driver, we);
         highlightWebElement(we, driver);
         we.sendKeys(value);
@@ -61,7 +62,7 @@ public class CommonUtil {
      * @param driver
      *            the driver
      */
-    public static void clickButton(final WebElement element, final WebDriver driver) {
+    public void clickButton(final WebElement element, final WebDriver driver) {
         waitForElementIsClickable(driver, element);
         element.click();
     }
@@ -74,7 +75,7 @@ public class CommonUtil {
      * @param driver
      *            the driver
      */
-    public static void clearWebElement(final WebElement element, final WebDriver driver) {
+    public void clearWebElement(final WebElement element, final WebDriver driver) {
         waitForElementIsClickable(driver, element);
         element.clear();
     }
@@ -87,7 +88,7 @@ public class CommonUtil {
      * @param driver
      *            the driver
      */
-    private static void highlightWebElement(final WebElement element, final WebDriver driver) {
+    private void highlightWebElement(final WebElement element, final WebDriver driver) {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].style.border='3px dotted blue'", element);
     }
@@ -98,7 +99,7 @@ public class CommonUtil {
      * @param waitTime
      *            the wait time
      */
-    public static void waitTime(final long waitTime) {
+    public void waitTime(final long waitTime) {
         Uninterruptibles.sleepUninterruptibly(waitTime, TimeUnit.MILLISECONDS);
     }
 
@@ -112,19 +113,19 @@ public class CommonUtil {
      * @throws IOException
      *             Signals that an I/O exception has occurred.
      */
-    public static void writeTextFile(final String filePath, final String outputMessageText) throws IOException {
+    public void writeTextFile(final String filePath, final String outputMessageText) throws IOException {
         try (FileOutputStream writeFile = new FileOutputStream(filePath)) {
             writeFile.write(outputMessageText.getBytes());
         } catch (IOException e) {
-            log.error("Unable to write file ", e);
+            logger.error("Unable to write file ", e);
         }
     }
 
-    public static void writeAndAppendTextFile(final String filePath, final String outputMessageText) throws IOException {
+    public void writeAndAppendTextFile(final String filePath, final String outputMessageText) {
             try {
                 Files.write(Paths.get(filePath), outputMessageText.getBytes(), StandardOpenOption.APPEND);
             } catch (IOException e) {
-                log.error("Unable to append file ", e);
+                logger.error("Unable to append file ", e);
             }
     }
 }

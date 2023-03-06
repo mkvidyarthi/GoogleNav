@@ -1,68 +1,70 @@
 package com.navigation.googletest.stepdefinitions;
 
+import com.navigation.googletest.pageobjects.GoogleMapPage;
+import com.navigation.googletest.util.CommonUtil;
+import com.navigation.googletest.util.TestProperties;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.junit.Assert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-
-import com.navigation.googletest.pageobjects.GoogleMapPage;
-import com.navigation.googletest.util.CommonUtil;
-import com.navigation.googletest.util.TestProperties;
-
-import cucumber.api.java.After;
-import cucumber.api.java.Before;
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
-
 public class NavigationTest extends TestProperties {
+    CommonUtil commonUtil;
+    public NavigationTest() {
+        commonUtil = new CommonUtil();
+    }
 
-    private static Logger log = LogManager.getLogger(NavigationTest.class.getName());
+    private final Logger logger = LogManager.getLogger(this.getClass());
 
     /** The Constant USER_DIR. */
-    private static final String USER_DIR = "user.dir";
-    
+    private final String USER_DIR = "user.dir";
+
     /** The Constant CHROME. */
-    private static final String BROWSER = "chrome";
-    
+    private final String BROWSER = "chrome";
+
     /** The Constant GOOGLE_MAP_URL. */
-    private static final String GOOGLE_MAP_URL = "https://maps.google.com";
+    private final String GOOGLE_MAP_URL = "https://maps.google.com";
 
     /** The driver. */
     WebDriver driver;
 
     /** The Constant COORDINATES. */
-    private static final String COORDINATES = "37.7576793,-122.5076402";
+    private final String COORDINATES = "37.7576793,-122.5076402";
 
     /** The Constant DESTINATION_CITY. */
-    private static final String CITY_SAN_FRANCISCO = "San Francisco, California";
+    private final String CITY_SAN_FRANCISCO = "San Francisco, California";
 
     /** The Constant CITY_CHICO_TO_SAN_FRANCISCO. */
-    private static final String CITY_CHICO_TO_SAN_FRANCISCO = "chico to san francisco";
+    private final String CITY_CHICO_TO_SAN_FRANCISCO = "chico to san francisco";
 
-    @Before
+    @BeforeClass
     public void beforeScenario() {
         driver = getDriver(BROWSER);
     }
 
-    @After()
+    @AfterClass()
     public void afterSteps() {
         driver.close();
     }
 
-    @Given("^Launch Chrome and maximize the window$")
+    @Given("Launch Chrome and maximize the window")
     public void launchChromeAndMaximizeTheWindow() {
         driver.manage().window().maximize();
     }
 
-    @When("^Navigate to Google Maps$")
+    @When("Navigate to Google Maps")
     public void navigateToGoogleMaps() {
         driver.get(GOOGLE_MAP_URL);
     }
@@ -70,29 +72,29 @@ public class NavigationTest extends TestProperties {
     /**
      * Search for san francisco.
      */
-    @When("^Search for San Francisco, California$")
+    @When("Search for San Francisco, California")
     public void searchForSanFrancisco() {
         GoogleMapPage googleMapObj = new GoogleMapPage(driver);
-        CommonUtil.typeInTextBox(googleMapObj.getSearchboxinput(), CITY_SAN_FRANCISCO, driver);
-        CommonUtil.clickButton(googleMapObj.getSearchBoxSearchButton(), driver);
-        CommonUtil.waitTime(3000);
+        commonUtil.typeInTextBox(googleMapObj.getSearchboxinput(), CITY_SAN_FRANCISCO, driver);
+        commonUtil.clickButton(googleMapObj.getSearchBoxSearchButton(), driver);
+        commonUtil.waitTime(3000);
     }
 
     /**
      * Verify the coordinates for san francisco.
      */
-    @Then("^Verify the coordinates for San Francisco are 37.7577627,-122.4726194$")
+    @Then("Verify the coordinates for San Francisco are 37.7577627,-122.4726194")
     public void verifyTheCoordinatesForSanFrancisco() {
         String url = driver.getCurrentUrl();
-        log.info(url);
+        logger.info(url);
         
         /* Get Co-ordinates only from Google Map URL */
         url = url.split("[\\@z)]")[1];
-        
-        CommonUtil.waitTime(3000);
+
+        commonUtil.waitTime(3000);
         try {
             Assert.assertTrue(url.contains(COORDINATES));
-            log.info(String.format("Get Co-ordinates: %s", url));
+            logger.info(String.format("Get Co-ordinates: %s", url));
         } finally {
             Assert.assertNotNull(url);
         }
@@ -102,35 +104,35 @@ public class NavigationTest extends TestProperties {
     /**
      * Search for driving directions from chico to san francisco.
      */
-    @When("^Search for driving directions from Chico, California to San Francisco, California$")
+    @When("Search for driving directions from Chico, California to San Francisco, California")
     public void searchForDrivingDirectionsFromChicoToSanFrancisco() {
         GoogleMapPage googleMapObj = new GoogleMapPage(driver);
-        CommonUtil.waitTime(3000);
-        CommonUtil.clearWebElement(googleMapObj.getSearchboxinput(), driver);
-        CommonUtil.typeInTextBox(googleMapObj.getSearchboxinput(), CITY_CHICO_TO_SAN_FRANCISCO, driver);
-        CommonUtil.clickButton(googleMapObj.getSearchBoxSearchButton(), driver);
-        CommonUtil.clickButton(googleMapObj.getModeDriving(), driver);
-        CommonUtil.waitTime(2000);
+        commonUtil.waitTime(3000);
+        commonUtil.clearWebElement(googleMapObj.getSearchboxinput(), driver);
+        commonUtil.typeInTextBox(googleMapObj.getSearchboxinput(), CITY_CHICO_TO_SAN_FRANCISCO, driver);
+        commonUtil.clickButton(googleMapObj.getSearchBoxSearchButton(), driver);
+        commonUtil.clickButton(googleMapObj.getModeDriving(), driver);
+        commonUtil.waitTime(2000);
         Assert.assertTrue(googleMapObj.getModeDriving().isEnabled());
     }
 
     /**
      * Verify two or more routes are displayed in the list.
      */
-    @Then("^Verify two or more routes are displayed in the list and print in text file$")
+    @Then("Verify two or more routes are displayed in the list and print in text file")
     public void verifyTwoOrMoreRoutesAreDisplayedInTheList() {
-        CommonUtil.waitTime(3000);
+        commonUtil.waitTime(3000);
         List<String> ls = new ArrayList<>();
         List<WebElement> data = driver.findElements(By.xpath("//div[@class='section-layout']/div"));
         for (WebElement element : data) {
 
-            log.info(element.getText());
+            logger.info(element.getText());
             ls.add(element.getText());
             try {
-                CommonUtil.writeTextFile(System.getProperty(USER_DIR) + File.separator + "routes.txt",
+                commonUtil.writeTextFile(System.getProperty(USER_DIR) + File.separator + "routes.txt",
                         ls.toString().trim());
             } catch (IOException e) {
-                log.error(String.format("Unable to write file %s", e.getLocalizedMessage()));
+                logger.error(String.format("Unable to write file %s", e.getLocalizedMessage()));
             }
         }
     }

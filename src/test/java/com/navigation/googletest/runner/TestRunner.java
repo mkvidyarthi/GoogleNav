@@ -1,17 +1,19 @@
 package com.navigation.googletest.runner;
 
-import org.junit.runner.RunWith;
+import io.cucumber.testng.AbstractTestNGCucumberTests;
+import io.cucumber.testng.CucumberOptions;
 
-import cucumber.api.CucumberOptions;
-import cucumber.api.junit.Cucumber;
-
-@RunWith(Cucumber.class)
 @CucumberOptions(
-		features = "src/test/resources/features",
+		features = "classpath:features",
 		glue= {"classpath:"},
-		monochrome = true
+		plugin = {"pretty:target/cucumber-reports/cucumber-pretty.txt",
+		"html:target/cucumber-reports/raw-cucumber-html-report.html",
+		"json:target/report.json"},
+		monochrome = true,
+		dryRun = true,
+		tags = "google-nav"
 		)
 
-public class TestRunner {
+public class TestRunner extends AbstractTestNGCucumberTests {
 
 }
